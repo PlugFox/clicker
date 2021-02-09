@@ -1,61 +1,61 @@
 /*
-Скрипт помогает "закликивать в играх" при удержании клавиши
-
-Вызывать функцию "Clicker(param1, param2)"
-1 необязательный параметр (булево) - клик мышью:
-	false	- только совершать закликивание нажатой клавишей (по умолчанию)
-	true	- после каждого клика кнопкой - клик мышью
-2 необязательный параметр (булево) - с тряской или без
-	false	- тряска отключена (по умолчанию)
-	true	- тряска включена
-	
-Задержки устанавливаются в глобальных переменных DelayMin и DelayMax,
-а также в SetBatchLines, SetKeyDelay, SetMouseDelay
-*/
+ * РЎРєСЂРёРїС‚ РїРѕРјРѕРіР°РµС‚ "Р·Р°РєР»РёРєРёРІР°С‚СЊ РІ РёРіСЂР°С…" РїСЂРё СѓРґРµСЂР¶Р°РЅРёРё РєР»Р°РІРёС€Рё
+ * 
+ * Р’С‹Р·С‹РІР°С‚СЊ С„СѓРЅРєС†РёСЋ "Clicker(param1, param2)"
+ * 1 РЅРµРѕР±СЏР·Р°С‚РµР»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ (Р±СѓР»РµРІРѕ) - РєР»РёРє РјС‹С€СЊСЋ:
+ *     false   - С‚РѕР»СЊРєРѕ СЃРѕРІРµСЂС€Р°С‚СЊ Р·Р°РєР»РёРєРёРІР°РЅРёРµ РЅР°Р¶Р°С‚РѕР№ РєР»Р°РІРёС€РµР№ (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ)
+ *     true    - РїРѕСЃР»Рµ РєР°Р¶РґРѕРіРѕ РєР»РёРєР° РєРЅРѕРїРєРѕР№ - РєР»РёРє РјС‹С€СЊСЋ
+ * 2 РЅРµРѕР±СЏР·Р°С‚РµР»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ (Р±СѓР»РµРІРѕ) - СЃ С‚СЂСЏСЃРєРѕР№ РёР»Рё Р±РµР·
+ *     false   - С‚СЂСЏСЃРєР° РѕС‚РєР»СЋС‡РµРЅР° (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ)
+ *     true    - С‚СЂСЏСЃРєР° РІРєР»СЋС‡РµРЅР°
+ *     
+ * Р—Р°РґРµСЂР¶РєРё СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋС‚СЃСЏ РІ РіР»РѕР±Р°Р»СЊРЅС‹С… РїРµСЂРµРјРµРЅРЅС‹С… DelayMin Рё DelayMax,
+ *  Р° С‚Р°РєР¶Рµ РІ SetBatchLines, SetKeyDelay, SetMouseDelay
+ */
 
 
 
 ; ## ## ## ## ## 
-; ## Основное
+; ## РћСЃРЅРѕРІРЅРѕРµ
 
-; Эта деректива позволяет исполняться скрипту только в окне с игрой
-; Можно стереть или закоментировать, тогда работать будет везде
+; Р­С‚Р° РґРµСЂРµРєС‚РёРІР° РїРѕР·РІРѕР»СЏРµС‚ РёСЃРїРѕР»РЅСЏС‚СЊСЃСЏ СЃРєСЂРёРїС‚Сѓ С‚РѕР»СЊРєРѕ РІ РѕРєРЅРµ СЃ РёРіСЂРѕР№
+; РњРѕР¶РЅРѕ СЃС‚РµСЂРµС‚СЊ РёР»Рё Р·Р°РєРѕРјРµРЅС‚РёСЂРѕРІР°С‚СЊ, С‚РѕРіРґР° СЂР°Р±РѕС‚Р°С‚СЊ Р±СѓРґРµС‚ РІРµР·РґРµ
 ; #IfWinActive ahk_class MyGame
 
-#Warn										; Enable warnings to assist with detecting common errors.
-#NoEnv										; Эта директива запрещает использование в скриптах переменных окружения. 
-#SingleInstance			Force				; Заменять текущее приложение, запускаемыми
-#MaxHotKeysPerInterval	1000000000			; Ограничение на кол-во посылаемых символов
-#MaxThreadsPerHotkey	1					; Макс кол-во потоков на кнопку
-#WinActivateForce							; Пропустить более мягкий метод активации окна
-#Persistent									; Keeps a script permanently running
+#Warn                                  ; Enable warnings to assist with detecting common errors.
+#NoEnv                                 ; Р­С‚Р° РґРёСЂРµРєС‚РёРІР° Р·Р°РїСЂРµС‰Р°РµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РІ СЃРєСЂРёРїС‚Р°С… РїРµСЂРµРјРµРЅРЅС‹С… РѕРєСЂСѓР¶РµРЅРёСЏ. 
+#SingleInstance           Force        ; Р—Р°РјРµРЅСЏС‚СЊ С‚РµРєСѓС‰РµРµ РїСЂРёР»РѕР¶РµРЅРёРµ, Р·Р°РїСѓСЃРєР°РµРјС‹РјРё
+#MaxHotKeysPerInterval    1000000000   ; РћРіСЂР°РЅРёС‡РµРЅРёРµ РЅР° РєРѕР»-РІРѕ РїРѕСЃС‹Р»Р°РµРјС‹С… СЃРёРјРІРѕР»РѕРІ
+#MaxThreadsPerHotkey      1            ; РњР°РєСЃ РєРѕР»-РІРѕ РїРѕС‚РѕРєРѕРІ РЅР° РєРЅРѕРїРєСѓ
+#WinActivateForce                      ; РџСЂРѕРїСѓСЃС‚РёС‚СЊ Р±РѕР»РµРµ РјСЏРіРєРёР№ РјРµС‚РѕРґ Р°РєС‚РёРІР°С†РёРё РѕРєРЅР°
+#Persistent                            ; Keeps a script permanently running
 
-	SetBatchLines,			5ms				; Супер-скорость при -1 (могут быть пролагивания)
-	SetKeyDelay,			5, 5			; Скорость эмуляции клавиши
-	SetMouseDelay,			5				; Скорость мыши	  
-	SendMode,				Event			; Способ эмуляции
-	SetWorkingDir,			%A_ScriptDir%	; Устанавливаю рабочую папку
-	DetectHiddenWindows,	on				; Обнаруживать скрытые окна
-	SetTitleMatchMode,		2				; Sets the matching behavior of the WinTitle parameter in commands such as WinWait.
+    SetBatchLines,       5ms           ; РЎСѓРїРµСЂ-СЃРєРѕСЂРѕСЃС‚СЊ РїСЂРё -1 (РјРѕРіСѓС‚ Р±С‹С‚СЊ РїСЂРѕР»Р°РіРёРІР°РЅРёСЏ)
+    SetKeyDelay,         5, 5          ; РЎРєРѕСЂРѕСЃС‚СЊ СЌРјСѓР»СЏС†РёРё РєР»Р°РІРёС€Рё
+    SetMouseDelay,       5             ; РЎРєРѕСЂРѕСЃС‚СЊ РјС‹С€Рё      
+    SendMode,            Event         ; РЎРїРѕСЃРѕР± СЌРјСѓР»СЏС†РёРё
+    SetWorkingDir,       %A_ScriptDir% ; РЈСЃС‚Р°РЅР°РІР»РёРІР°СЋ СЂР°Р±РѕС‡СѓСЋ РїР°РїРєСѓ
+    DetectHiddenWindows, on            ; РћР±РЅР°СЂСѓР¶РёРІР°С‚СЊ СЃРєСЂС‹С‚С‹Рµ РѕРєРЅР°
+    SetTitleMatchMode,   2             ; Sets the matching behavior of the WinTitle parameter in commands such as WinWait.
 
-	global DelayMin			:= 15			; Минимальная задержка между проходами кликера
-	global DelayMax			:= 20			; Максимальная задержка между проходами кликера
-	global SetPause			:= false		; Глобальная переменная паузы (не трогать)
-	global 0
-	
-	/*
-	RunAsAdmin()							; Перезапускаю от админа
-	*/
-	
-	CreateTray()							; Создаю параметры трэя
+    global DelayMin      := 15         ; РњРёРЅРёРјР°Р»СЊРЅР°СЏ Р·Р°РґРµСЂР¶РєР° РјРµР¶РґСѓ РїСЂРѕС…РѕРґР°РјРё РєР»РёРєРµСЂР°
+    global DelayMax      := 20         ; РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ Р·Р°РґРµСЂР¶РєР° РјРµР¶РґСѓ РїСЂРѕС…РѕРґР°РјРё РєР»РёРєРµСЂР°
+    global SetPause      := false      ; Р“Р»РѕР±Р°Р»СЊРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РїР°СѓР·С‹ (РЅРµ С‚СЂРѕРіР°С‚СЊ)
+    global 0
+    
+    /*
+    RunAsAdmin()                       ; РџРµСЂРµР·Р°РїСѓСЃРєР°СЋ РѕС‚ Р°РґРјРёРЅР°
+    */
+    
+    CreateTray()                       ; РЎРѕР·РґР°СЋ РїР°СЂР°РјРµС‚СЂС‹ С‚СЂСЌСЏ
 return
 
 
 ; ## ## ## ## ## 
-; ## Горячие клавиши
+; ## Р“РѕСЂСЏС‡РёРµ РєР»Р°РІРёС€Рё
 
 ~*sc10:: ; Q
-	Clicker(true, true) ; С кликом и тряской (иногда тряска может помочь работать быстрее)
+    Clicker(true, true) ; РЎ РєР»РёРєРѕРј Рё С‚СЂСЏСЃРєРѕР№ (РёРЅРѕРіРґР° С‚СЂСЏСЃРєР° РјРѕР¶РµС‚ РїРѕРјРѕС‡СЊ СЂР°Р±РѕС‚Р°С‚СЊ Р±С‹СЃС‚СЂРµРµ)
 return
 
 ~*F1::
@@ -71,7 +71,7 @@ return
 ~*sc1F:: ; S
 ~*sc20:: ; D
 ~*sc21:: ; F
-	Clicker(true) ; С кликом
+    Clicker(true) ; РЎ РєР»РёРєРѕРј
 return
 
 ~*1:: ; 1
@@ -85,129 +85,129 @@ return
 ~*sc2D:: ; X
 ~*sc2E:: ; C
 ~*sc2F:: ; V
-	Clicker(false) ; Без клика
+    Clicker(false) ; Р‘РµР· РєР»РёРєР°
 return
 
 
 ; ## ## ## ## ## 
-; ## Настройки
+; ## РќР°СЃС‚СЂРѕР№РєРё
 
 ; Home
 sc147::
 PlayScript:
-	SetPause := false
-	Menu, Tray, Icon, Shell32.dll, 138
-	Tooltip("Пауза убрана.")
+    SetPause := false
+    Menu, Tray, Icon, Shell32.dll, 138
+    Tooltip("РџР°СѓР·Р° СѓР±СЂР°РЅР°.")
 return
 
 ; End
 sc14F::
 PauseScript:
-	SetPause := true
-	Menu, Tray, Icon, Shell32.dll, 132
-	Tooltip("Пауза установлена.")
+    SetPause := true
+    Menu, Tray, Icon, Shell32.dll, 132
+    Tooltip("РџР°СѓР·Р° СѓСЃС‚Р°РЅРѕРІР»РµРЅР°.")
 return
 
 ; Ctrl + Home
 ^sc147::
 ReloadScript:
-	Reload
+    Reload
 return
 
 ; Ctrl + End
 ^sc14F::
 ExitScript:
-	ExitApp
+    ExitApp
 return
 
 
 ; ## ## ## ## ##
-; ## Функции
+; ## Р¤СѓРЅРєС†РёРё
 
 RemoveToolTip:
-	SetTimer, RemoveToolTip, Off
-	ToolTip
+    SetTimer, RemoveToolTip, Off
+    ToolTip
 return
 
 Tooltip(text) {
-	ToolTip, %text%, A_ScreenWidth-150, A_ScreenHeight-75
-	SetTimer, RemoveToolTip, 5000	
+    ToolTip, %text%, A_ScreenWidth-150, A_ScreenHeight-75
+    SetTimer, RemoveToolTip, 5000    
 }
 
 Clicker(WithClick = false, ShakeMouse = false) {
-	if SetPause
-		return
-	Key := RegExReplace(A_ThisHotkey, "[^a-zA-Z0-9]")
-	if WithClick
-		Click
-	Sleep, 250	
-	if not GetKeyState(Key, "P")
-		return
-	Counter := 0
-	Loop
-	{
-		if not GetKeyState(Key, "P")
-			break
-		Counter := Counter + 1
-		Send, {%Key%}
-		if WithClick 
-			{
-				Click
-				if ShakeMouse
-					MouseMove, 0, % ((Mod(Counter,3)-1)*5), 1, R
-			}
-		Random, Delay, DelayMin, DelayMax
-		sleep, %Delay% 
-	}
+    if SetPause
+        return
+    Key := RegExReplace(A_ThisHotkey, "[^a-zA-Z0-9]")
+    if WithClick
+        Click
+    Sleep, 250    
+    if not GetKeyState(Key, "P")
+        return
+    Counter := 0
+    Loop
+    {
+        if not GetKeyState(Key, "P")
+            break
+        Counter := Counter + 1
+        Send, {%Key%}
+        if WithClick 
+            {
+                Click
+                if ShakeMouse
+                    MouseMove, 0, % ((Mod(Counter,3)-1)*5), 1, R
+            }
+        Random, Delay, DelayMin, DelayMax
+        sleep, %Delay% 
+    }
 }
 
-CreateTray() {	
-	Menu, Tray, NoStandard
-	Menu, Tray, Tip, % " Home/End - запустить/приостановить кликер `n"
-					 . " Ctrl+Home - перезапустить кликер `n"
-					 . " Ctrl+End - выключить кликер `n"
-	Menu, Tray, Add
-	Menu, Tray, Add
-	Menu, Tray, Add
-	Menu, Tray, Add
-	Menu, Tray, Add	
-	Menu, Tray, Add, Возобновить скрипт (Home), PlayScript
-	Menu, Tray, Add	
-	Menu, Tray, Add, Остановить скрипт (End), PauseScript
-	Menu, Tray, Add
-	Menu, Tray, Add, Перезапустить (Ctrl + Home), ReloadScript
-	Menu, Tray, Add
-	Menu, Tray, Add, Выход (Ctrl + End), ExitScript
-	Menu, Tray, Add
-	Menu, Tray, Add
-	Menu, Tray, Add
-	Menu, Tray, Add
-	Menu, Tray, Add
-	Menu, Tray, Icon, Shell32.dll, 138
+CreateTray() {    
+    Menu, Tray, NoStandard
+    Menu, Tray, Tip, % " Home/End - Р·Р°РїСѓСЃС‚РёС‚СЊ/РїСЂРёРѕСЃС‚Р°РЅРѕРІРёС‚СЊ РєР»РёРєРµСЂ `n"
+                     . " Ctrl+Home - РїРµСЂРµР·Р°РїСѓСЃС‚РёС‚СЊ РєР»РёРєРµСЂ `n"
+                     . " Ctrl+End - РІС‹РєР»СЋС‡РёС‚СЊ РєР»РёРєРµСЂ `n"
+    Menu, Tray, Add
+    Menu, Tray, Add
+    Menu, Tray, Add
+    Menu, Tray, Add
+    Menu, Tray, Add    
+    Menu, Tray, Add, Р’РѕР·РѕР±РЅРѕРІРёС‚СЊ СЃРєСЂРёРїС‚ (Home), PlayScript
+    Menu, Tray, Add    
+    Menu, Tray, Add, РћСЃС‚Р°РЅРѕРІРёС‚СЊ СЃРєСЂРёРїС‚ (End), PauseScript
+    Menu, Tray, Add
+    Menu, Tray, Add, РџРµСЂРµР·Р°РїСѓСЃС‚РёС‚СЊ (Ctrl + Home), ReloadScript
+    Menu, Tray, Add
+    Menu, Tray, Add, Р’С‹С…РѕРґ (Ctrl + End), ExitScript
+    Menu, Tray, Add
+    Menu, Tray, Add
+    Menu, Tray, Add
+    Menu, Tray, Add
+    Menu, Tray, Add
+    Menu, Tray, Icon, Shell32.dll, 138
 }
 
 RunAsAdmin() {
-	Loop, %0%  ; For each parameter:
-	{
-		param := %A_Index%  ; Fetch the contents of the variable whose name is contained in A_Index.
-		params .= A_Space . param
-	}
-	ShellExecute := A_IsUnicode ? "shell32\ShellExecute":"shell32\ShellExecuteA"
+    Loop, %0%  ; For each parameter:
+    {
+        param := %A_Index%  ; Fetch the contents of the variable whose name is contained in A_Index.
+        params .= A_Space . param
+    }
+    ShellExecute := A_IsUnicode ? "shell32\ShellExecute":"shell32\ShellExecuteA"
 
-	if not A_IsAdmin
-	{
-		If A_IsCompiled
-			DllCall(ShellExecute, uint, 0, str, "RunAs", str, A_ScriptFullPath, str, params , str, A_WorkingDir, int, 1)
-		Else
-			DllCall(ShellExecute, uint, 0, str, "RunAs", str, A_AhkPath, str, """" . A_ScriptFullPath . """" . A_Space . params, str, A_WorkingDir, int, 1)
-		ExitApp
-	}
+    if not A_IsAdmin
+    {
+        If A_IsCompiled
+            DllCall(ShellExecute, uint, 0, str, "RunAs", str, A_ScriptFullPath, str, params , str, A_WorkingDir, int, 1)
+        Else
+            DllCall(ShellExecute, uint, 0, str, "RunAs", str, A_AhkPath, str, """" . A_ScriptFullPath . """" . A_Space . params, str, A_WorkingDir, int, 1)
+        ExitApp
+    }
 }
 
 
 /*
-; Отладка, в скрипте будут созданы точки прерывания:
-ListHotkeys
-ListVars
-Pause
-*/
+ * ; РћС‚Р»Р°РґРєР°, РІ СЃРєСЂРёРїС‚Рµ Р±СѓРґСѓС‚ СЃРѕР·РґР°РЅС‹ С‚РѕС‡РєРё РїСЂРµСЂС‹РІР°РЅРёСЏ:
+ * ListHotkeys
+ * ListVars
+ * Pause
+ */
