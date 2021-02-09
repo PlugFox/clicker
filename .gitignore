@@ -1,0 +1,6 @@
+# Compiled source
+*.exe
+
+# IDE
+.vscode
+launch.json

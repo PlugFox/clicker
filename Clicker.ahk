@@ -44,8 +44,8 @@
     global 0
     
     /*
-    RunAsAdmin()                       ; Перезапускаю от админа
     */
+    RunAsAdmin()                       ; Перезапускаю от админа
     
     CreateTray()                       ; Создаю параметры трэя
 return
@@ -97,7 +97,7 @@ sc147::
 PlayScript:
     SetPause := false
     Menu, Tray, Icon, Shell32.dll, 138
-    Tooltip("Пауза убрана.")
+    Tooltip("Pause removed.")
 return
 
 ; End
@@ -105,7 +105,7 @@ sc14F::
 PauseScript:
     SetPause := true
     Menu, Tray, Icon, Shell32.dll, 132
-    Tooltip("Пауза установлена.")
+    Tooltip("Pause set.")
 return
 
 ; Ctrl + Home
@@ -163,21 +163,21 @@ Clicker(WithClick = false, ShakeMouse = false) {
 
 CreateTray() {    
     Menu, Tray, NoStandard
-    Menu, Tray, Tip, % " Home/End - запустить/приостановить кликер `n"
-                     . " Ctrl+Home - перезапустить кликер `n"
-                     . " Ctrl+End - выключить кликер `n"
+    Menu, Tray, Tip, % " Home/End  - start / pause clicker `n"
+                     . " Ctrl+Home - restart clicker `n"
+                     . " Ctrl+End  - turn off clicker `n"
     Menu, Tray, Add
     Menu, Tray, Add
     Menu, Tray, Add
     Menu, Tray, Add
     Menu, Tray, Add    
-    Menu, Tray, Add, Возобновить скрипт (Home), PlayScript
+    Menu, Tray, Add, Resume script (Home), PlayScript
     Menu, Tray, Add    
-    Menu, Tray, Add, Остановить скрипт (End), PauseScript
+    Menu, Tray, Add, Stop script (End), PauseScript
     Menu, Tray, Add
-    Menu, Tray, Add, Перезапустить (Ctrl + Home), ReloadScript
+    Menu, Tray, Add, Restart (Ctrl + Home), ReloadScript
     Menu, Tray, Add
-    Menu, Tray, Add, Выход (Ctrl + End), ExitScript
+    Menu, Tray, Add, Close (Ctrl + End), ExitScript
     Menu, Tray, Add
     Menu, Tray, Add
     Menu, Tray, Add
@@ -187,6 +187,7 @@ CreateTray() {
 }
 
 RunAsAdmin() {
+    params := " "
     Loop, %0%  ; For each parameter:
     {
         param := %A_Index%  ; Fetch the contents of the variable whose name is contained in A_Index.
